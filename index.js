@@ -23,10 +23,17 @@ app.get('/', function (req, res) {
 
 //Jobs route
 app.get('/jobs', function (req, res) {
-    res.send(JSON.stringify(Jobs.find()))
+    try {
+        res.send(JSON.stringify(Jobs.find()))
+        res.status(200);
+    } catch(err) {
+        res.send(err)
+    }
 });
 app.delete('/jobs/:id', function(req, res) {
-    res.send(Jobs.removeItem(req.params.id));
+    const result = Jobs.removeItem(req.params.id);
+    res.status( result.status );
+    res.send(result.message);
 })
 
 //Users route
